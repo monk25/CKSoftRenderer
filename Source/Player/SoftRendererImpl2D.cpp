@@ -54,11 +54,13 @@ void SoftRendererImpl2D::RenderFrameImpl()
 
 	DrawGrid2D();
 
-	RSI->DrawPoint(Vector2::Zero, LinearColor::Blue);
-	RSI->DrawPoint(Vector2::Zero + Vector2::UnitX, LinearColor::Blue);
-	RSI->DrawPoint(Vector2::Zero - Vector2::UnitX, LinearColor::Blue);
-	RSI->DrawPoint(Vector2::Zero + Vector2::UnitY, LinearColor::Blue);
-	RSI->DrawPoint(Vector2::Zero - Vector2::UnitY, LinearColor::Blue);
+	//RSI->DrawPoint(Vector2::Zero, LinearColor::Blue);
+	//RSI->DrawPoint(Vector2::Zero + Vector2::UnitX, LinearColor::Blue);
+	//RSI->DrawPoint(Vector2::Zero - Vector2::UnitX, LinearColor::Blue);
+	//RSI->DrawPoint(Vector2::Zero + Vector2::UnitY, LinearColor::Blue);
+	//RSI->DrawPoint(Vector2::Zero - Vector2::UnitY, LinearColor::Blue);
+
+	RSI->DrawLine(Vector2::Zero, Vector2(100.f, 100.f), LinearColor::Blue);
 }
 
 void SoftRendererImpl2D::UpdateImpl(float DeltaSeconds)
