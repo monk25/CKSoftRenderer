@@ -8,6 +8,7 @@ public:
 	Vector4() { }
 	FORCEINLINE Vector4(const Vector2& InV, bool IsPoint = true) : X(InV.X), Y(InV.Y), Z(0.f) { W = IsPoint ? 1.f : 0.f; }
 	FORCEINLINE Vector4(const Vector3& InV, bool IsPoint = true) : X(InV.X), Y(InV.Y), Z(InV.Z) { W = IsPoint ? 1.f : 0.f; }
+	FORCEINLINE Vector4(float InX, float InY, float InZ, bool IsPoint = true) : X(InX), Y(InY), Z(InZ) { W = IsPoint ? 1.f : 0.f; }
 	FORCEINLINE Vector4(float InX, float InY, float InZ, float InW) : X(InX), Y(InY), Z(InZ), W(InW) { }
 
 	FORCEINLINE float SizeSquared() const;

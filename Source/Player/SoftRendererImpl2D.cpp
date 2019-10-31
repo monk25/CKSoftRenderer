@@ -54,13 +54,23 @@ void SoftRendererImpl2D::RenderFrameImpl()
 
 	DrawGrid2D();
 
-	//RSI->DrawPoint(Vector2::Zero, LinearColor::Blue);
-	//RSI->DrawPoint(Vector2::Zero + Vector2::UnitX, LinearColor::Blue);
-	//RSI->DrawPoint(Vector2::Zero - Vector2::UnitX, LinearColor::Blue);
-	//RSI->DrawPoint(Vector2::Zero + Vector2::UnitY, LinearColor::Blue);
-	//RSI->DrawPoint(Vector2::Zero - Vector2::UnitY, LinearColor::Blue);
+	const int vertexCount = 4;
+	VertexData v[vertexCount] = {
+		VertexData(Vector4(0.5f, -0.5f, 0.f)),
+		VertexData(Vector4(0.5f, 0.5f, 0.f)),
+		VertexData(Vector4(0.5f, 0.5f, 0.f)),
+		VertexData(Vector4(0.5f, -0.5f, 0.f))
+	};
 
-	RSI->DrawLine(Vector2::Zero, Vector2(100.f, 100.f), LinearColor::Blue);
+	const int triangleCount = 2;
+	const int indexCount = triangleCount * 3;
+	int i[indexCount] = {
+		0, 2, 1, 0, 3, 2
+	};
+
+	RSI->SetVertexBuffer(v);
+	RSI->SetIndexBuffer(i);
+	RSI->DrawPrimitive(vertexCount, indexCount);
 }
 
 void SoftRendererImpl2D::UpdateImpl(float DeltaSeconds)

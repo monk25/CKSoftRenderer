@@ -112,6 +112,21 @@ void WindowsRSI::DrawLine(const Vector2 & InStartPos, const Vector2 & InEndPos, 
 	}
 }
 
+void WindowsRSI::SetVertexBuffer(VertexData * InVertexData)
+{
+	VertexBuffer = InVertexData;
+}
+
+void WindowsRSI::SetIndexBuffer(const int * InIndexData)
+{
+	IndexBuffer = InIndexData;
+}
+
+void WindowsRSI::DrawPrimitive(UINT InVertexSize, UINT InIndexSize)
+{
+
+}
+
 void WindowsRSI::DrawFullVerticalLine(int InX, const LinearColor & InColor)
 {
 	if (InX < 0 || InX >= ScreenSize.X)
