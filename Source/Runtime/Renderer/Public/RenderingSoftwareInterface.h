@@ -21,7 +21,7 @@ public:
 	virtual void DrawLine(const Vector2& InStartPos, const Vector2& InEndPos, const LinearColor& InColor) = 0;
 
 	virtual void SetVertexBuffer(VertexData* InVertexData) = 0;
-	virtual void SetIndexBuffer(const int* InIndexData) = 0;
+	virtual void SetIndexBuffer(int* InIndexData) = 0;
 	virtual void DrawPrimitive(UINT InVertexSize, UINT InIndexSize) = 0;
 
 	virtual void DrawFullVerticalLine(int InX, const LinearColor& InColor) = 0;

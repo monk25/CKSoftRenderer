@@ -56,10 +56,10 @@ void SoftRendererImpl2D::RenderFrameImpl()
 
 	const int vertexCount = 4;
 	VertexData v[vertexCount] = {
-		VertexData(Vector4(0.5f, -0.5f, 0.f)),
-		VertexData(Vector4(0.5f, 0.5f, 0.f)),
-		VertexData(Vector4(0.5f, 0.5f, 0.f)),
-		VertexData(Vector4(0.5f, -0.5f, 0.f))
+		VertexData(Vector4(-0.5f, -0.5f, 0.f) * 100.f, LinearColor::Red),
+		VertexData(Vector4(-0.5f, 0.5f, 0.f) * 100.f, LinearColor::Blue),
+		VertexData(Vector4(0.5f, 0.5f, 0.f) * 100.f, LinearColor::Green),
+		VertexData(Vector4(0.5f, -0.5f, 0.f) * 100.f, LinearColor::Black)
 	};
 
 	const int triangleCount = 2;

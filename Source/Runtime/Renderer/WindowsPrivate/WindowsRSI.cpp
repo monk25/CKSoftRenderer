@@ -117,14 +117,26 @@ void WindowsRSI::SetVertexBuffer(VertexData * InVertexData)
 	VertexBuffer = InVertexData;
 }
 
-void WindowsRSI::SetIndexBuffer(const int * InIndexData)
+void WindowsRSI::SetIndexBuffer(int * InIndexData)
 {
 	IndexBuffer = InIndexData;
 }
 
 void WindowsRSI::DrawPrimitive(UINT InVertexSize, UINT InIndexSize)
 {
+	int triangleCount = InIndexSize / 3;
+	for (int t = 0; t < triangleCount; t++)
+	{
+		VertexData tp[3] = { 
+			VertexBuffer[IndexBuffer[t * 3]], 
+			VertexBuffer[IndexBuffer[t * 3 + 1]], 
+			VertexBuffer[IndexBuffer[t * 3 + 2]] 
+		};
 
+		DrawLine(tp[0].Position.ToVector2(), tp[1].Position.ToVector2(), tp[0].Color);
+		DrawLine(tp[0].Position.ToVector2(), tp[2].Position.ToVector2(), tp[1].Color);
+		DrawLine(tp[1].Position.ToVector2(), tp[2].Position.ToVector2(), tp[2].Color);
+	}
 }
 
 void WindowsRSI::DrawFullVerticalLine(int InX, const LinearColor & InColor)
