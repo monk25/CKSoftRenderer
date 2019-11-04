@@ -52,6 +52,61 @@ void WindowsRSI::DrawPoint(const Vector2& InVectorPos, const LinearColor& InColo
 	SetPixel(ScreenPoint::ToScreenCoordinate(ScreenSize, InVectorPos), InColor);
 }
 
+void WindowsRSI::DrawLine(const Vector2 & InStartPos, const Vector2 & InEndPos, const LinearColor & InColor)
+{
+	ScreenPoint lV = ScreenPoint::ToScreenCoordinate(ScreenSize, InStartPos);
+	ScreenPoint rV = ScreenPoint::ToScreenCoordinate(ScreenSize, InEndPos);
+
+	if (lV.X > rV.X) {
+		ScreenPoint t = lV;
+		lV = rV;
+		rV = t;
+	}
+
+	ScreenPoint v = rV - lV;
+	int w = v.X;
+	int h = v.Y;
+	int length = w;
+
+	ScreenPoint underV = ScreenPoint{ 1, 0 };
+	ScreenPoint overV = ScreenPoint{ 1, 1 };
+
+	if (Math::Abs(w) < Math::Abs(h)) {
+		int t = w;
+		w = h;
+		h = t;
+		length = w;
+
+		underV = ScreenPoint{ 0, 1 };
+	}
+	if (w * h < 0) {
+		underV.Y *= -1;
+		overV.Y *= -1;
+
+		length = abs(length);
+	}
+
+	int underF = Math::Abs(h) * 2;
+	int overF = 2 * (Math::Abs(h) - Math::Abs(w));
+	int f = 2 * Math::Abs(h) - Math::Abs(w);
+
+
+	ScreenPoint dir{ 0,0 };
+	for (int i{ 0 }; i <= length; ++i) {
+		SetPixel(ScreenPoint(lV + dir), InColor);
+		if (f < 0) {
+			dir.X += underV.X;
+			dir.Y += underV.Y;
+			f += underF;
+		}
+		else {
+			dir.X += overV.X;
+			dir.Y += overV.Y;
+			f += overF;
+		}
+	}
+}
+
 void WindowsRSI::DrawFullVerticalLine(int InX, const LinearColor & InColor)
 {
 	if (InX < 0 || InX >= ScreenSize.X)
