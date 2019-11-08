@@ -65,10 +65,10 @@ void SoftRendererImpl2D::RenderFrameImpl()
 
 	RSI->DrawLine(Vector2(-10, 10), Vector2(-50, 120), LinearColor::Black);
 	RSI->DrawLine(Vector2(-10, 10), Vector2(-120, 50), LinearColor::Black);
-
+	
 	RSI->DrawLine(Vector2(-10, -10), Vector2(-50, -120), LinearColor::Black);
 	RSI->DrawLine(Vector2(-10, -10), Vector2(-120, -50), LinearColor::Black);
-
+	
 	RSI->DrawLine(Vector2(10, -10), Vector2(50, -120), LinearColor::Black);
 	RSI->DrawLine(Vector2(10, -10), Vector2(120, -50), LinearColor::Black);
 }
