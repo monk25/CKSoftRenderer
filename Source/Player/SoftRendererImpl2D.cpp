@@ -2,6 +2,7 @@
 #include "Precompiled.h"
 #include "SoftRendererImpl2D.h"
 #include "SoftRenderer.h"
+#include "Shape.h"
 
 SoftRendererImpl2D::SoftRendererImpl2D(SoftRenderer* InOwner)
 {
@@ -60,17 +61,29 @@ void SoftRendererImpl2D::RenderFrameImpl()
 	RSI->DrawPoint(Vector2::Zero + Vector2::UnitY, LinearColor::Blue);
 	RSI->DrawPoint(Vector2::Zero - Vector2::UnitY, LinearColor::Blue);
 
-	RSI->DrawLine(Vector2(10, 10), Vector2(50, 120), LinearColor::Black);
-	RSI->DrawLine(Vector2(10, 10), Vector2(120, 50), LinearColor::Black);
+	Quad q{ -100, 100, 100, -100 };
+	q.Render(RSI);
+	Matrix3x3 qMatrix;
+	qMatrix.SetIdentity();
+	//TRS
+	Matrix3x3 TRS;
+	Matrix3x3 T;
+	Matrix3x3 R;
+	Matrix3x3 S;
+	T.SetIdentity();
+	R.SetIdentity();
+	S.SetIdentity();
 
-	RSI->DrawLine(Vector2(-10, 10), Vector2(-50, 120), LinearColor::Black);
-	RSI->DrawLine(Vector2(-10, 10), Vector2(-120, 50), LinearColor::Black);
-	
-	RSI->DrawLine(Vector2(-10, -10), Vector2(-50, -120), LinearColor::Black);
-	RSI->DrawLine(Vector2(-10, -10), Vector2(-120, -50), LinearColor::Black);
-	
-	RSI->DrawLine(Vector2(10, -10), Vector2(50, -120), LinearColor::Black);
-	RSI->DrawLine(Vector2(10, -10), Vector2(120, -50), LinearColor::Black);
+	float dir = Math::Deg2Rad(90);
+	T[2].X = 100;
+	R[0].X = cosf(dir);
+	R[0].Y = sinf(dir);
+	R[1].X = -sinf(dir);
+	R[1].Y = cosf(dir);
+	S[0].X = 0.5f;
+	TRS = T * R * S;
+	qMatrix = qMatrix * TRS;
+	RSI->Render(qMatrix, q.GetIndexCount());
 }
 
 void SoftRendererImpl2D::UpdateImpl(float DeltaSeconds)

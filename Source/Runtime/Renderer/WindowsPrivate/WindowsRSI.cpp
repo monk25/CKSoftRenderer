@@ -52,7 +52,7 @@ void WindowsRSI::DrawPoint(const Vector2& InVectorPos, const LinearColor& InColo
 	SetPixel(ScreenPoint::ToScreenCoordinate(ScreenSize, InVectorPos), InColor);
 }
 
-void WindowsRSI::DrawLine(const Vector2 & InStartPos, const Vector2 & InEndPos, const LinearColor & InColor)
+void WindowsRSI::DrawLine(const Vector2& InStartPos, const Vector2& InEndPos, const LinearColor& InColor)
 {
 	int w = InEndPos.X - InStartPos.X;
 	int h = InEndPos.Y - InStartPos.Y;
@@ -83,57 +83,20 @@ void WindowsRSI::DrawLine(const Vector2 & InStartPos, const Vector2 & InEndPos, 
 			p = p + overV;
 		}
 	}
+}
 
-	//ScreenPoint lV = ScreenPoint::ToScreenCoordinate(ScreenSize, InStartPos);
-	//ScreenPoint rV = ScreenPoint::ToScreenCoordinate(ScreenSize, InEndPos);
+void WindowsRSI::DrawTriangle(const Vector2& InVector1, const Vector2& InVector2, const Vector2& InVector3, const LinearColor& InColor)
+{
+	DrawLine(InVector1, InVector2, InColor);
+	DrawLine(InVector1, InVector3, InColor);
+	DrawLine(InVector2, InVector3, InColor);
+}
 
-	//if (lV.X > rV.X) {
-	//	ScreenPoint t = lV;
-	//	lV = rV;
-	//	rV = t;
-	//}
-
-	//ScreenPoint v = rV - lV;
-	//int w = v.X;
-	//int h = v.Y;
-	//int length = w;
-
-	//ScreenPoint underV = ScreenPoint{ 1, 0 };
-	//ScreenPoint overV = ScreenPoint{ 1, 1 };
-
-	//if (Math::Abs(w) < Math::Abs(h)) {
-	//	int t = w;
-	//	w = h;
-	//	h = t;
-	//	length = w;
-
-	//	underV = ScreenPoint{ 0, 1 };
-	//}
-	//if (w * h < 0) {
-	//	underV.Y *= -1;
-	//	overV.Y *= -1;
-	//	length = abs(length);
-	//}
-
-	//int underF = Math::Abs(h) * 2;
-	//int overF = 2 * (Math::Abs(h) - Math::Abs(w));
-	//int f = 2 * Math::Abs(h) - Math::Abs(w);
-
-
-	//ScreenPoint dir{ 0,0 };
-	//for (int i{ 0 }; i <= length; ++i) {
-	//	SetPixel(ScreenPoint(lV + dir), InColor);
-	//	if (f < 0) {
-	//		dir.X += underV.X;
-	//		dir.Y += underV.Y;
-	//		f += underF;
-	//	}
-	//	else {
-	//		dir.X += overV.X;
-	//		dir.Y += overV.Y;
-	//		f += overF;
-	//	}
-	//}
+void WindowsRSI::DrawTriangle(const Vertex& InVertex1, const Vertex& InVertex2, const Vertex& InVertex3)
+{
+	DrawLine(InVertex1.pos, InVertex2.pos, LinearColor::Blue);
+	DrawLine(InVertex1.pos, InVertex3.pos, LinearColor::Blue);
+	DrawLine(InVertex2.pos, InVertex3.pos, LinearColor::Blue);
 }
 
 void WindowsRSI::DrawFullVerticalLine(int InX, const LinearColor & InColor)
@@ -162,6 +125,29 @@ void WindowsRSI::DrawFullHorizontalLine(int InY, const LinearColor & InColor)
 	{
 		SetPixel(ScreenPoint(x, InY), InColor);
 	}
+}
+
+void WindowsRSI::Render(const Matrix3x3& worldMatrix, const unsigned int& indexCount)
+{
+	for (int i = 0; i < indexCount; i += 3) {
+		Vertex v1 = vertexBuffer[indexBuffer[i]];
+		Vertex v2 = vertexBuffer[indexBuffer[i + 1]];
+		Vertex v3 = vertexBuffer[indexBuffer[i + 2]];
+		v1.pos *= worldMatrix;
+		v2.pos *= worldMatrix;
+		v3.pos *= worldMatrix;
+		DrawTriangle(v1, v2, v3);
+	}
+}
+
+void WindowsRSI::IASetVertexBuffer(Vertex* vertexBuffer)
+{
+	this->vertexBuffer = vertexBuffer;
+}
+
+void WindowsRSI::IASetIndexBuffer(unsigned int* indexBuffer)
+{
+	this->indexBuffer = indexBuffer;
 }
 
 void WindowsRSI::SetPixel(const ScreenPoint& InPos, const LinearColor& InColor)
